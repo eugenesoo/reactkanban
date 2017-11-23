@@ -1037,7 +1037,13 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _Column = __webpack_require__(18);
+
+var _Column2 = _interopRequireDefault(_Column);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1058,21 +1064,52 @@ var App = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
     _this.state = {
-      column1: [{ description: 'buy 2 eggs' }, { description: 'buy 2 turkeys' }],
-      column2: [{ description: 'buy 2 eggs' }, { description: 'buy 2 turkeys' }],
-      column3: [{ description: 'buy 2 eggs' }, { description: 'buy 2 turkeys' }],
-      column4: [{ description: 'buy 2 eggs' }, { description: 'buy 2 turkeys' }]
+      column1: {
+        id: 'column1',
+        name: 'Winnie',
+        data: [{ description: 'buy 1 eggs' }, { description: 'buy 1 turkeys' }]
+      },
+      column2: {
+        id: 'column2',
+        name: 'Bob',
+        data: [{ description: 'buy 2 eggs' }, { description: 'buy 2 turkeys' }]
+      },
+      column3: {
+        id: 'column3',
+        name: 'Thomas',
+        data: [{ description: 'buy 3 eggs' }, { description: 'buy 3 turkeys' }]
+      },
+      column4: {
+        id: 'column4',
+        name: 'George',
+        data: [{ description: 'buy 4 eggs' }, { description: 'buy 4 turkeys' }]
+      }
     };
+    _this.handleInput = _this.handleInput.bind(_this);
     return _this;
   }
 
   _createClass(App, [{
+    key: 'handleInput',
+    value: function handleInput(columnId) {
+      var input = prompt('please enter task');
+      console.log(columnId, input);
+      var newData = {};
+      Object.assign(newData, this.state[columnId]);
+      console.log(newData);
+      newData.data.push({ description: input });
+      this.setState(_defineProperty({}, columnId, newData));
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
-        'HELLO!'
+        { className: 'board' },
+        _react2.default.createElement(_Column2.default, { data: this.state.column1, handleInput: this.handleInput }),
+        _react2.default.createElement(_Column2.default, { data: this.state.column2, handleInput: this.handleInput }),
+        _react2.default.createElement(_Column2.default, { data: this.state.column3, handleInput: this.handleInput }),
+        _react2.default.createElement(_Column2.default, { data: this.state.column4, handleInput: this.handleInput })
       );
     }
   }]);
@@ -1081,6 +1118,55 @@ var App = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = App;
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Column = function Column(props) {
+  return _react2.default.createElement(
+    'div',
+    { className: props.data.name },
+    _react2.default.createElement(
+      'div',
+      { className: 'header' },
+      _react2.default.createElement(
+        'h2',
+        null,
+        props.data.name
+      )
+    ),
+    props.data.data.map(function (item) {
+      return _react2.default.createElement(
+        'p',
+        null,
+        item.description
+      );
+    }),
+    _react2.default.createElement(
+      'button',
+      { onClick: function onClick() {
+          props.handleInput('' + props.data.id);
+        } },
+      'Add a card'
+    )
+  );
+};
+
+exports.default = Column;
 
 /***/ })
 /******/ ]);
